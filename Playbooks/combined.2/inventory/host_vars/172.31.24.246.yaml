@@ -1,3 +1,4 @@
 ---
 package_name: httpd
-loop_packages_items: '["php"]'
+loop_packages_items: 
+  - php
