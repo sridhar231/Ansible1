@@ -9,12 +9,11 @@
       ansible.builtin.package:
         name: "{{ package_name }}"
         state: present
-        update_cache: yes
     - name: enable & restart
       ansible.builtin.systemd:
         name: "{{ package_name }}"
-        enabled: true
-        state: restarted
+        enabled: yes
+        state: started
     - name: installing php packages
       ansible.builtin.package: 
         name: "{{ Item }}"
