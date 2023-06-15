@@ -1,0 +1,31 @@
+---
+- name: install lamp server
+  hosts: 
+  become: yes
+  tasks:
+    - name: install apache
+      ansible.builtin.package:
+        name: "{{ package_name }}"
+        state: present
+        update_cache: yes
+    - name: enable & restart
+      ansible.builtin.systemd:
+        name: "{{ package_name }}"
+        enabled: true
+        state: restarted
+    - name: installing php packages
+      ansible.builtin.package: 
+        name: "{{ Item }}"
+        loop: "{{ loop_packages_items }}"
+        state: present    
+      notify:
+        - restart apache     
+    - name: copy php package
+      ansible.builtin.copy:
+      src: info.php
+      dest: "{{ info_page_path }}"
+  handlers: 
+    ansible.builtin.systemd:
+      name: restart apache 
+      state: started
+
